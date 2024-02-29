@@ -23,8 +23,6 @@ Space
 
     contiguous in memory, so proximity helps performance
     space needed = (array capacity, which is >= n) * size of item, but even if 2n, still O(n)
-
-
 */
 
 #include <stdio.h>
