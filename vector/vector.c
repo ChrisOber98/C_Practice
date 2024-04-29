@@ -12,13 +12,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
-typedef struct Vector
-{
-	int * arr;
-	int capacity;
-	int size;
-}Vector;
+#include "vector.h"
 
 void vect_display(Vector * vect)
 {
@@ -36,7 +30,7 @@ Vector * vect_init()
 {
 	printf("---Init Vector---\n");
 
-	Vector * temp;
+	Vector * temp = malloc(sizeof(Vector));;
 
 	temp->capacity = 1;
 	temp->size = 0;
@@ -58,6 +52,7 @@ void vect_fin(Vector * vect)
 {
 	printf("---Deconstructing Vector---\nFreeing Array\n\n");
 	free(vect->arr);
+	free(vect);
 }
 
 void vect_resize(Vector * vect)
@@ -167,44 +162,4 @@ int vect_at(int index, Vector * vect)
 	printf("returning: %d\n\n", vect->arr[index]);
 
 	return vect->arr[index];
-}
-
-int main(int argc, char ** argv)
-{
-
-	Vector * my_vect = vect_init();
-
-	vect_delete_at(0, my_vect);
-
-	vect_insert_at(12, 12, my_vect);
-
-	vect_insert_at(0, 3, my_vect);
-
-	vect_insert_at(0, 69, my_vect);
-
-	vect_insert_at(2, 420, my_vect);
-
-	vect_insert_at(4, 6969, my_vect);
-
-	vect_update_at(123, 123, my_vect);
-
-	vect_update_at(2, 765, my_vect);
-
-	vect_at(123123, my_vect);
-
-	vect_at(3, my_vect);
-
-	vect_at(2, my_vect);
-
-	vect_delete_at(1, my_vect);
-
-	vect_delete_at(1, my_vect);
-
-	vect_delete_at(0, my_vect);
-
-	vect_insert_at(0, 3, my_vect);
-
-	vect_fin(my_vect);
-
-	return 0;
 }
