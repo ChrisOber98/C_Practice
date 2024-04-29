@@ -140,9 +140,13 @@ void sll_delete_start(Node ** head)
 		return;
 	}
 
+	Node * temp = *head;
+
 	Node * cur = *head;
 
 	*head = cur->next;
+
+	free(temp);
 
 	sll_print(*head);
 }
@@ -162,7 +166,9 @@ void sll_delete_end(Node ** head)
 
 	if (cur->next == NULL)
 	{
+		Node * temp = *head;
 		*head = NULL;
+		free(head);
 		sll_print(*head);
 		return;
 	}
@@ -173,8 +179,8 @@ void sll_delete_end(Node ** head)
 		cur = cur->next;
 	}
 
-
 	prev->next = NULL;
+	free(cur);
 
 	sll_print(*head);
 }
@@ -194,7 +200,9 @@ void sll_delete_at_end(Node ** head)
 
 	if (cur->next == NULL)
 	{
+		Node * temp = *head;
 		*head = NULL;
+		free(temp);
 		sll_print(*head);
 		return;
 	}
@@ -206,7 +214,7 @@ void sll_delete_at_end(Node ** head)
 	}
 
 	prev->next = NULL;
-
+	free(cur);
 	sll_print(*head);
 }
 
@@ -246,7 +254,9 @@ void sll_delete_at(int index, Node ** head)
 
 	if (counter == index)
 	{
+		Node* temp = cur;
 		prev->next = cur->next;
+		free(cur);
 		sll_print(*head);
 	}
 	else
