@@ -10,3 +10,10 @@ clean:
 
 run:
 	./sll
+
+run_val:
+	valgrind --leak-check=full \
+         --show-leak-kinds=all \
+         --track-origins=yes \
+         --verbose \
+         ./sll

@@ -40,6 +40,23 @@ void sll_print(Node * head)
 	printf("NULL\n\n");
 }
 
+void sll_free(Node ** head)
+{
+	printf("---Freeing SLL---\n");
+
+
+	Node * cur = *head;
+
+	while(cur != NULL)
+	{
+		Node * temp = cur;
+		cur = cur->next;
+		free(temp);
+	}
+
+	*head = NULL;
+}
+
 void sll_insert_start(int element, Node ** head)
 {
 	printf("---Inserting at start---\n");
@@ -289,6 +306,8 @@ int main(int argc, char ** argv)
 	sll_delete_at(0, &head);
 
 	sll_delete_at(0, &head);
+
+	sll_free(&head);
 
 	return 0;
 }
