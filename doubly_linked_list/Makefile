@@ -1,9 +1,11 @@
-dll: dll.o
-	gcc dll.o -o dll
+dll: dll.o main.o
+	gcc dll.o main.o -o dll
+
+main.o: main.c dll.h
+	gcc -c main.c
 
 dll.o: dll.c
-	clear
-	gcc -g -c dll.c
+	gcc -c dll.c
 
 clean:
 	rm *.o dll
@@ -11,7 +13,7 @@ clean:
 run:
 	./dll
 
-run_val:
+runv:
 	valgrind --leak-check=full \
          --show-leak-kinds=all \
          --track-origins=yes \
