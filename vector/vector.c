@@ -116,29 +116,33 @@ void vect_update_at(int index, int element, Vector * vect)
 	vect_display(vect);
 }
 
-void vect_delete_at(int index, Vector * vect)
+int vect_delete_at(int index, Vector * vect)
 {
 	printf("---deleting at vector---\n");
 
 	if(index < 0 || index > vect->size)
 	{
 		printf("Trying to access out of bound index\n\n");
-		return;
+		return -999;
 	}
 
 	if(vect->size == 0)
 	{
+		printf("returning nothing array is empty\n");
 		vect_display(vect);
-		return;		
+		return -999;		
 	}
 
 	if(vect->size == 1)
 	{
+		int ret = vect->arr[0];
+		printf("returning %d\n", ret);
 		vect->size--;
 		vect_display(vect);
-		return;		
+		return ret;		
 	}
 
+	int ret = vect->arr[index];
 	for (int i = index; i < vect->size - 1; i++)
 	{
 		vect->arr[i] = vect->arr[i + 1];
@@ -146,7 +150,9 @@ void vect_delete_at(int index, Vector * vect)
 
 	vect->size--;
 
+	printf("returning %d\n", ret);
 	vect_display(vect);
+	return ret;
 
 }
 

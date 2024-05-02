@@ -171,14 +171,14 @@ void dll_delete_front(DoublyLinkedList ** dll)
 	dll_print(*dll);
 }
 
-void dll_delete_back(DoublyLinkedList ** dll)
+int dll_delete_back(DoublyLinkedList ** dll)
 {
 	printf("---DELETING FROM BACK OF DLL---\n");
 
 	if ((*dll)->head->next == (*dll)->tail)
 	{
 		printf("DLL IS EMPTY!\n\n");
-		return;
+		return -999;
 	}
 
 	Node * prev = (*dll)->tail->prev->prev;
@@ -188,9 +188,13 @@ void dll_delete_back(DoublyLinkedList ** dll)
 	next->prev = prev;
 	prev->next = next;
 
+	int ret = cur->data;
+
 	free(cur);
 
 	dll_print(*dll);
+
+	return ret;
 }
 
 void dll_delete_at(int index, DoublyLinkedList ** dll)
@@ -228,4 +232,16 @@ void dll_delete_at(int index, DoublyLinkedList ** dll)
 	}
 
 	dll_print(*dll);
+}
+
+int dll_is_empty(DoublyLinkedList ** dll)
+{
+	if ((*dll)->head->next == (*dll)->tail)
+	{
+		return 1;
+	}
+	else
+	{
+		return -1;
+	}
 }

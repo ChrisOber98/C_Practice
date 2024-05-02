@@ -20,7 +20,7 @@ void vect_insert_at(int index, int element, Vector * vect);
 
 void vect_update_at(int index, int element, Vector * vect);
 
-void vect_delete_at(int index, Vector * vect);
+int vect_delete_at(int index, Vector * vect);
 
 int vect_at(int index, Vector * vect);
 

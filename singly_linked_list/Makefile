@@ -1,8 +1,11 @@
-sll: sll.o
-	gcc sll.o -o sll
+sll: sll.o main.o
+	gcc sll.o main.o -o sll
 
 sll.o: sll.c
 	gcc -c sll.c
+
+main.o: main.c sll.h
+	gcc -c main.c
 
 clean:
 	rm *.o
@@ -11,7 +14,7 @@ clean:
 run:
 	./sll
 
-run_val:
+runv:
 	valgrind --leak-check=full \
          --show-leak-kinds=all \
          --track-origins=yes \

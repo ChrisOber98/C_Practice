@@ -1,3 +1,6 @@
+#ifndef DLL_H_
+#define DLL_H_
+
 typedef struct Node
 {
 	struct Node * next;
@@ -27,7 +30,11 @@ void dll_insert_at(int element, int index, DoublyLinkedList ** dll);
 
 void dll_delete_front(DoublyLinkedList ** dll);
 
-void dll_delete_back(DoublyLinkedList ** dll);
+int dll_delete_back(DoublyLinkedList ** dll);
 
 void dll_delete_at(int index, DoublyLinkedList ** dll);
+
+int dll_is_empty(DoublyLinkedList ** dll);
+
+#endif
 
