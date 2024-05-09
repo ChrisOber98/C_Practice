@@ -323,6 +323,15 @@ void test_desize()
 	vector_resize(test_vector);
 	assert(vector_capacity(test_vector) == 8);
 
+	//Test desize
+	assert(vector_capacity(test_vector) == 8);
+	vector_desize(test_vector);
+	assert(vector_capacity(test_vector) == 4);
+	vector_desize(test_vector);
+	assert(vector_capacity(test_vector) == 2);
+	vector_desize(test_vector);
+	assert(vector_capacity(test_vector) == 1);
+
 	
 
 	vector_deinit(test_vector);

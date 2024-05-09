@@ -26,7 +26,7 @@
 Vector * vector_init()
 {
 	//Create Temp vector
-	Vector * temp = malloc(sizeof(Vector));
+	Vector * temp = (Vector*)malloc(sizeof(Vector));
 
 	//Make Sure Temp vector allocated successfuly
 	if(!temp)
@@ -41,7 +41,7 @@ Vector * vector_init()
 	temp->size = 0;
 
 	//Create Array within Vector
-	temp->arr = malloc(sizeof(int) * temp->capacity);
+	temp->arr = (int*)malloc(sizeof(int) * temp->capacity);
 
 	//Check To Make Sure array within vector allocated correctly
 	if(!temp)
@@ -94,10 +94,10 @@ void vector_resize(Vector * vect)
 	vect->capacity = vect->capacity * 2;
 
 	//Realloc memory for array using new capacity
-	vect->arr = realloc(vect->arr, sizeof(int) * vect->capacity);
+	vect->arr = (int*)realloc(vect->arr, sizeof(int) * vect->capacity);
 
 	//Check Realloc was success
-	if (!vect)
+	if (!vect->arr)
 	{
 		//Handle allocation Error
 		fprintf(stderr, "Allocation Error");
@@ -166,6 +166,13 @@ int vector_insert(int index, int element, Vector * vect)
 		return -1;
 	}
 
+	//Check if resize is needed (capacity == size)
+	if(vect->capacity - 1 == vect->size)
+	{
+		//Resize if needed
+		vector_resize(vect);
+	}
+
 	//Check if Vector is empty
 	if(vect->size == 0)
 	{
@@ -175,15 +182,8 @@ int vector_insert(int index, int element, Vector * vect)
 		return 1;		
 	}
 
-	//Check if resize is needed (capacity == size)
-	if(vect->capacity == vect->size)
-	{
-		//Resize if needed
-		vector_resize(vect);
-	}
-
 	//Shift all values starting from the end to index by 1
-	for (int i = vect->size; i >= index; i--)
+	for (int i = vect->size; i > index; i--)
 	{
 		//Right shift by 1
 		vect->arr[i + 1] = vect->arr[i];
@@ -220,6 +220,12 @@ int vector_pop(int * value, Vector * vect)
 	//Decrease size by 1
 	vect->size -= 1;
 
+	//Check if size is 1/4 capacity and if so desize
+	if(vector_size(vect) == vector_capacity(vect) / 4)
+	{
+		vector_desize(vect);
+	}
+
 	//return 1 on success
 	return 1;
 }
@@ -243,7 +249,11 @@ int vector_delete(int index, int * value, Vector * vect)
 		//Decrease Size
 		vect->size--;
 
-		if(vector_size(vect) / 4 )
+		//Check if size is 1/4 capacity and if so desize
+		if(vector_size(vect) == vector_capacity(vect) / 4)
+		{
+			vector_desize(vect);
+		}
 
 		//Return 1 on success
 		return 1;		
