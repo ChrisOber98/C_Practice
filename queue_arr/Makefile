@@ -2,13 +2,13 @@ queue_arr: main.o queue_arr.o vector.o
 	gcc main.o queue_arr.o vector.o -o queue_arr
 
 queue_arr.o: queue_arr.c
-	gcc -c queue_arr.c -I/home/chris-ober/Documents/C_Practice/vector
+	gcc -c queue_arr.c -I../vector/
 
 vector.o: ../vector/vector.c
 	gcc -c ../vector/vector.c
 
 main.o: main.c
-	gcc -c main.c -I/home/chris-ober/Documents/C_Practice/vector
+	gcc -c main.c -I../vector/
 
 clean:
 	rm *.o queue_arr

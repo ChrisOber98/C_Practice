@@ -1,19 +1,17 @@
-vector: vector.o main.o
-	clear
-	gcc vector.o main.o -o vector
+vector: vector.o main.o test_vector.o
+	gcc vector.o main.o test_vector.o -o vector
 
 vector.o: vector.c
-	clear
 	gcc -c vector.c
 
+test_vector.o: test_vector.c
+	gcc -c test_vector.c
+
 main.o: main.c vector.h
-	clear
 	gcc -c main.c
 
 clean:
-	clear
-	rm *.o
-	rm vector
+	rm *.o vector
 
 run:
 	clear

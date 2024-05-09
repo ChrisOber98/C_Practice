@@ -2,10 +2,10 @@ queue_ll: main.o dll.o queue_ll.o
 	gcc main.o dll.o queue_ll.o -o queue_ll
 
 main.o: main.c
-	gcc -c main.c -I/home/chris-ober/Documents/C_Practice/doubly_linked_list
+	gcc -c main.c -I../doubly_linked_list
 
 queue_ll.o: queue_ll.c 
-	gcc -c queue_ll.c -I/home/chris-ober/Documents/C_Practice/doubly_linked_list
+	gcc -c queue_ll.c -I../doubly_linked_list
 
 dll.o: ../doubly_linked_list/dll.c
 	gcc -c ../doubly_linked_list/dll.c
