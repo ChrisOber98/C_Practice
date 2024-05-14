@@ -88,30 +88,31 @@ bool sll_empty(Node * head)
 //------value_at(index) - returns the value of the nth item (starting at 0 for first)
 bool sll_at(int index, int * ret, Node * head)
 {
-	//Set temp cur variable
-	Node * cur = head;
+    // Set temp cur variable
+    Node * cur = head;
 
-	//Set counter variable to track where at in list
-	int counter = 0;
+    // Set counter variable to track where at in list
+    int counter = 0;
 
-	//Continue iterating while ur not at end of list
-	//and have not found the index yet
-	while(cur != head && counter != index)
-	{
-		counter += 1;
-	}
+    // Continue iterating while you're not at end of list
+    // and have not found the index yet
+    while(cur != NULL && counter != index)
+    {
+        cur = cur->next;
+        counter += 1;
+    }
 
-	//If we exited because we found correct index
-	//Return value else return false
-	if(counter == index)
-	{
-		*ret = cur->data;
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+    // If we exited because we found the correct index
+    // Return value, else return false
+    if(counter == index && cur != NULL) // Check if cur is not NULL
+    {
+        *ret = cur->data;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 //-----push_front(value) - adds an item to the front of the list-----
@@ -205,14 +206,13 @@ bool sll_pop_back(int * ret, Node ** head)
 	//Check if only one node in list
 	if (cur->next == NULL)
 	{
-		//Store head as temp ptr
-		Node * temp = *head;
+		*ret = (*head)->data;
 
 		//Set head to NULL
 		*head = NULL;
 
 		//free the head
-		free(head);
+		free(*head);
 
 		//return success
 		return true;
@@ -235,6 +235,8 @@ bool sll_pop_back(int * ret, Node ** head)
 
 	//free last node
 	free(cur);
+
+	return true;
 }
 
 //-----front() - get the value of the front item-----
@@ -285,116 +287,107 @@ bool sll_back(int * ret, Node * head)
 }
 
 //-----insert(index, value) - insert value at index, so the current item at that index is pointed to by the new item at the index
-bool sll_insert(int index, int element, Node ** head)
+bool sll_insert(int index, int element, Node ** head) 
 {
-	//Set counter Variable
-	int counter = 0;
+    int counter = 0;
+    Node * new_node = node_init(element);
 
-	//Create New Node for insertion
-	Node * new_node = node_init(element);
+    if (index < 0) 
+    {
+        return false;
+    }
 
-	//Check if index is out of bounds
-	if (index < 0)
-	{
-		return false;
-	}
+    if (*head == NULL) 
+    {
+        if (index == 0) 
+        {
+            *head = new_node;
+            return true;
+        } else 
+        {
+            return false;
+        }
+    }
 
-	//If list is empty and trying to insert at beginning
-	if (*head == NULL && index == 0)
-	{
-		//Set Head to the new node
-		*head = new_node;
-		return true;
-	}
+    Node * cur = *head;
+    Node * prev = NULL;
 
-	//Set cur and prev in relation to head
-	Node * cur = *head;
-	Node * prev = NULL;
+    while (cur != NULL && counter < index) 
+    {
+        prev = cur;
+        cur = cur->next;
+        counter++;
+    }
 
-	// Iterate while not end of list and counter is less then index
-	while (cur != NULL && counter < index)
-	{
-		//Update all variables
-		prev = cur;
-		cur = cur->next;
-		counter += 1;
-	}
-	//Either we reached end of list or the counter == index
-
-	//We found index
-	if (counter == index)
-	{
-		//Insert New Node at index
-		prev->next = new_node;
-		new_node->next = cur;
-	}
-	//We did not find index
-	else
-	{
-		return false;		
-	}
+    if (counter == index) 
+    {
+        if (prev != NULL) 
+        { // Check if prev is not NULL
+            prev->next = new_node;
+        } else 
+        { // Inserting at the beginning
+            new_node->next = *head;
+            *head = new_node; // Update head pointer
+        }
+        new_node->next = cur;
+        return true;
+    } else 
+    {
+        return false; // Index out of bounds
+    }
 }
 
-//-----erase(index) - removes node at given index-----
-bool sll_erase(int index, Node ** head)
+// Function to remove node at given index
+bool sll_erase(int index, Node **head) 
 {
-	//Create counter variable
-	int counter = 0;
+    // Create counter variable
+    int counter = 0;
 
-	//Set Cur and prev ptrs in relation to head
-	Node * cur = *head;
-	Node * prev = NULL;
-	int ret;
+    // Set cur and prev pointers in relation to head
+    Node *cur = *head;
+    Node *prev = NULL;
 
-	//Check if index is out of boudns
-	if (index < 0)
-	{
-		return false;
-	}
+    // Check if index is out of bounds
+    if (index < 0)
+    {
+        return false;
+    }
 
-	//If list is empty
-	if (*head == NULL)
-	{
-		return false;
-	}
+    // If list is empty
+    if (*head == NULL)
+    {
+        return false;
+    }
 
-	//If index is 0 delete from start
-	if (index == 0)
-	{
-		if(sll_pop_front(&ret, head) == true)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
+    // If index is 0 delete from start
+    if (index == 0) 
+    {
+        Node *temp = *head; // Store head in temp
+        *head = (*head)->next; // Move head to next node
+        free(temp); // Free memory of removed node
+        return true;
+    }
 
-	//Iterate while not end of list and couter != index
-	while (cur != NULL && counter < index)
-	{
-		//Update variables
-		prev = cur;
-		cur = cur->next;
-		counter += 1;
-	}
-	//Either we reached end of list of counter == index
+    // Iterate until end of list or counter equals index
+    while (cur != NULL && counter < index) 
+    {
+        prev = cur;
+        cur = cur->next;
+        counter++;
+    }
 
-	//If counter == index we found index
-	if (counter == index)
-	{
-		//Remove node 
-		Node* temp = cur;
-		prev->next = cur->next;
-		free(cur);
-		return true;
-	}
-	else
-	{
-		return false;		
-	}
-
+    // If counter equals index, node is found
+    if (counter == index) 
+    {
+        // Remove node
+        prev->next = cur->next;
+        free(cur); // Free memory of removed node
+        return true;
+    } else 
+    {
+        // Index out of bounds
+        return false;
+    }
 }
 
 //---print() - prints readable versions of linked list
