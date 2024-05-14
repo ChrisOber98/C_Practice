@@ -124,7 +124,7 @@ void sll_push_front(int element, Node ** head)
 	//If list is empty place at start
 	if (*head == NULL)
 	{
-		*head = new_node ;
+		*head = new_node;
 		return;
 	}
 
@@ -175,19 +175,17 @@ void sll_push_back(int element, Node ** head)
 
 	//Create a cur and previous pointer compared to head
 	Node * cur = *head;
-	Node * prev = NULL;
 
 	//Iterate through until at the end opf the list
-	while (cur != NULL)
+	while (cur->next != NULL)
 	{
 		//Update prev and cur variables as we go though
-		prev = cur;
 		cur = cur->next;
 	}
 	//At the end prev should be last Node
 
 	//Set last nodes next to the new_node
-	prev->next = new_node;
+	cur->next = new_node;
 }
 
 //-----pop_back() - removes end item and returns its value-----
@@ -208,11 +206,11 @@ bool sll_pop_back(int * ret, Node ** head)
 	{
 		*ret = (*head)->data;
 
-		//Set head to NULL
-		*head = NULL;
-
 		//free the head
 		free(*head);
+
+		//Set Head to NULL!
+		*head = NULL;
 
 		//return success
 		return true;
@@ -289,13 +287,13 @@ bool sll_back(int * ret, Node * head)
 //-----insert(index, value) - insert value at index, so the current item at that index is pointed to by the new item at the index
 bool sll_insert(int index, int element, Node ** head) 
 {
-    int counter = 0;
-    Node * new_node = node_init(element);
-
     if (index < 0) 
     {
         return false;
     }
+
+    int counter = 0;
+    Node * new_node = node_init(element);
 
     if (*head == NULL) 
     {
@@ -305,6 +303,7 @@ bool sll_insert(int index, int element, Node ** head)
             return true;
         } else 
         {
+        	free(new_node);
             return false;
         }
     }
@@ -333,6 +332,7 @@ bool sll_insert(int index, int element, Node ** head)
         return true;
     } else 
     {
+    	free(new_node);
         return false; // Index out of bounds
     }
 }
